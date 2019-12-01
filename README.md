@@ -41,7 +41,6 @@ let () = {
         "compare 'hello' with 'hello'" >@ () => StringAssert.equal("hello", "hello"),
         "compare list(string)" >@ () => StringAssert.equal_list(["Hello", "World"], ["Hello", "World"]),
         "compare array(string)" >@ () => StringAssert.equal_array([| "Hello", "World" |], [| "Hello", "World" |]),
-        "compare array(bool)" >@ () => BoolAssert.equal_array([| true, false |], [| true, false |]),
     ];
 };
 ```
