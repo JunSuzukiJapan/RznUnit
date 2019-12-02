@@ -1,0 +1,18 @@
+{
+  "name": "test_simple",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "npx bsb -backend native -make-world",
+    "test": "npx bsb -backend bytecode -make-world && lib/bs/bytecode/output,",
+    "clean": "npx bsb -clean-world"
+  },
+  "keywords": [
+    "BuckleScript",
+    "Reason"
+  ],
+  "author": "Jun Suzuki",
+  "license": "MIT",
+  "devDependencies": {
+    "bsb-native": "^4.0.1100"
+  }
+}
