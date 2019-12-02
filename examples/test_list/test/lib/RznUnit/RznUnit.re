@@ -19,6 +19,7 @@ exception UnmatchArrayLength;
 exception NotEqualArray(string, string, int);
 exception NotTrue;
 exception NotFalse;
+exception AssertFailure(string);
 
 /*
  * Context
@@ -71,6 +72,11 @@ let rec run_test_main(~catch_exn: bool, test: test, ctxt: context) = {
           | NotFalse => {
               ctxt.failure_count = ctxt.failure_count + 1;
               print_endline("  Failure: not false");
+            }
+          | AssertFailure(msg) => {
+              ctxt.failure_count = ctxt.failure_count + 1;
+              print_endline("  Failure:");
+              Printf.printf("    %s\n", msg)
             }
           | _ => {
               ctxt.failure_count = ctxt.failure_count + 1;
@@ -130,10 +136,15 @@ let rec run_test_main(~catch_exn: bool, test: test, ctxt: context) = {
         Printf.printf("  Failure: %s\n", msg);
         print_endline("    not false");
       }
+    | AssertFailure(msg) => {
+        ctxt.failure_count = ctxt.failure_count + 1;
+        print_endline("  Failure:");
+        Printf.printf("    %s\n", msg)
+      }
     | _ => {
         ctxt.failure_count = ctxt.failure_count + 1;
-        Printf.printf("  Failure: %s", msg);
-        print_string( "    - exception raised.")
+        Printf.printf("  Failure: %s\n", msg);
+        print_endline( "    - exception raised.")
       }
     };
   };
@@ -222,6 +233,32 @@ module MakeAssert = (Item: Assertable) => {
       | e => raise(e)
       }
     }
+  };
+}
+
+/*
+ * Assert
+ */
+module Assert = {
+  let raises(exn, f) = {
+    let result = try ( { f(); None } ) {
+    | e => Some(e);
+    };
+
+    switch result {
+    | None => {
+        let msg = Format.sprintf("expected exception %s, but no exception was raised.", Printexc.to_string(exn));
+        raise(AssertFailure(msg));
+      }
+    | Some(e) => {
+        if(e == exn){ // success
+          ();
+        }else{
+          let msg = Format.sprintf("expected exception %s, but exception %s was raised.", Printexc.to_string(exn), Printexc.to_string(e));
+          raise(AssertFailure(msg));
+        }
+      }
+    };
   };
 }
 

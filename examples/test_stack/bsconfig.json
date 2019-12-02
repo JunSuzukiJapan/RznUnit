@@ -1,5 +1,5 @@
 {
-  "name": "test_list",
+  "name": "test_stack",
   "version": "0.1.0",
   "sources": [
     {
@@ -21,7 +21,7 @@
     {
       "backend": "bytecode",
       "output-name": "output",
-      "main-module": "Test_list"
+      "main-module": "Test_stack"
     }
   ],
   "warnings": {

@@ -17,5 +17,5 @@ let () = {
     "Example Test List" >@@> [
         "test_list_length" @> test_list_length,
         "test_list_append" @> test_list_append,
-    ]
+    ];
 };

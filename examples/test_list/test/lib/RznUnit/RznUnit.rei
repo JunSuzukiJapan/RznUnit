@@ -31,6 +31,13 @@ module MakeAssert : (Item: Assertable) => {
 };
 
 /*
+ * Assert
+ */
+module Assert : {
+    let raises : exn => test_fun => unit;    
+}
+
+/*
  * BoolAssert
  */
 module BoolAssert : {
